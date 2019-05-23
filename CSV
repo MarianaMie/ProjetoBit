@@ -1,12 +1,11 @@
+import numpy as np
 import pandas as pd
-import csv
-with open ("csv_licenciamento_AC.csv", "r") as df:
-    df = df.readlines()
-    df = [letras.replace('É', 'E').replace('Ê','E').replace('Ô', 'O').replace('Õ','O').replace('Ó','O').replace('Á','A').replace('Ã','A').replace('À','A').replace('Í','I').replace('Ç','C').replace('Ú','U').replace('Ü','U') for letras in df]
-with open('planilha.csv', 'w') as csvfile:
-    filewriter = csv.writer(csvfile, delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    writer = csv.writer(csvfile)
-    for i in range(len(df)):
-        csvfile.write(df[i])
-df = pd.read_csv('planilha.csv')
-print(df)
+import glob
+import os
+dfList= []
+fileList = glob.glob("*.csv")
+for filename in fileList:
+    df = pd.read_csv(filename, encoding='ISO-8859–1')
+    dfList.append(df)
+concatDf = pd.concat(dfList,axis=0)
+print(concatDf)
